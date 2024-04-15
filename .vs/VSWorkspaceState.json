@@ -1,13 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Authorization",
-    "\\Controllers",
-    "\\Helpers",
-    "\\Migrations",
+    "\\Migrations\\SqliteMigrations",
+    "\\Migrations\\SqlServerMigrations",
     "\\Models",
     "\\Services"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }
