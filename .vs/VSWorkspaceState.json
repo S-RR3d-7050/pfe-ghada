@@ -3,9 +3,11 @@
     "",
     "\\Authorization",
     "\\Controllers",
+    "\\Helpers",
     "\\Migrations",
-    "\\Models"
+    "\\Models",
+    "\\Services"
   ],
-  "SelectedNode": "\\Models\\Users",
+  "SelectedNode": "\\.gitignore",
   "PreviewInSolutionExplorer": false
 }

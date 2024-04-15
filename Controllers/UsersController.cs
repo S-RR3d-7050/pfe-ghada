@@ -42,7 +42,13 @@ public class UsersController : ControllerBase
         _userService.Register(model);
         //return the created user
         //return Ok(new { message = "Registration successful" });
-        return Ok(new { model });
+
+        //return the created user
+        //log the user in after registration
+        Console.WriteLine("Logging in user after registration");
+        Console.WriteLine("Username: " + model.Username);
+
+        return Ok(model);
     }
 
     [HttpGet]
