@@ -17,6 +17,7 @@ public interface IUserService
     void Delete(int id);
     void activate(int id);
     void deactivate(int id);
+    User GetByUsername(string username);
 }
 
 public class UserService : IUserService
@@ -58,6 +59,15 @@ public class UserService : IUserService
     {
         return getUser(id);
     }
+
+    // Get user by username
+
+    public User GetByUsername(string username)
+    {
+		var user = _context.Users.SingleOrDefault(x => x.Username == username);
+		if (user == null) throw new KeyNotFoundException("User not found");
+		return user;
+	}
 
     public void Register(RegisterRequest model)
     {
