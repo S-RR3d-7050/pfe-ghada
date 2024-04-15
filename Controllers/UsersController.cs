@@ -44,11 +44,13 @@ public class UsersController : ControllerBase
         //return Ok(new { message = "Registration successful" });
 
         //return the created user
-        //log the user in after registration
-        Console.WriteLine("Logging in user after registration");
-        Console.WriteLine("Username: " + model.Username);
+        var user = _mapper.Map<UserResponse>(model);
 
-        return Ok(model);
+        return Ok(new
+        {
+            message = "Registration successful",
+            user
+        });
     }
 
     [HttpGet]
