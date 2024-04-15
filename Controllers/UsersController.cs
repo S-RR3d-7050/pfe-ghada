@@ -40,7 +40,9 @@ public class UsersController : ControllerBase
     public IActionResult Register(RegisterRequest model)
     {
         _userService.Register(model);
-        return Ok(new { message = "Registration successful" });
+        //return the created user
+        //return Ok(new { message = "Registration successful" });
+        return Ok(new { model });
     }
 
     [HttpGet]

@@ -1,4 +1,11 @@
 {
-  "ExpandedNodes": [],
+  "ExpandedNodes": [
+    "",
+    "\\Authorization",
+    "\\Controllers",
+    "\\Migrations",
+    "\\Models"
+  ],
+  "SelectedNode": "\\Models\\Users",
   "PreviewInSolutionExplorer": false
 }
