@@ -40,17 +40,24 @@ public class UsersController : ControllerBase
     public IActionResult Register(RegisterRequest model)
     {
         _userService.Register(model);
-        //return the created user
+
+        // WE need to return the created user aswell 
+
+        // This is not working
+
+
+        var user = _userService.GetByUsername(model.Username);
+
+        // We return the created user and the success message
+
+        return Ok(new { message = "Registration successful", user = user });
+
+        //return Ok(user);
+
         //return Ok(new { message = "Registration successful" });
+      
 
-        //return the created user
-        var user = _mapper.Map<UserResponse>(model);
-
-        return Ok(new
-        {
-            message = "Registration successful",
-            user
-        });
+    //);
     }
 
     [HttpGet]
