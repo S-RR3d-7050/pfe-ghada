@@ -19,4 +19,9 @@ public class DataContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
+    public DbSet<Admission> Admissions { get; set; }
+    public DbSet<DossierPatient> DossierPatients { get; set; }
+    public DbSet<EmploiDuTemps> EmploiDuTemps { get; set; }
+    public DbSet<RendezVous> RendezVous { get; set; }
+
 }

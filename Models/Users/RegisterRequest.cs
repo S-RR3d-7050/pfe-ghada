@@ -1,6 +1,7 @@
 namespace WebApi.Models.Users;
 
 using System.ComponentModel.DataAnnotations;
+using WebApi.Entities;
 
 public class RegisterRequest
 {
@@ -25,6 +26,6 @@ public class RegisterRequest
     public string CIN { get; set; }
 
     [Required]
-    public string Role { get; set; }
+    public UserRole Role { get; set; }
 
 }

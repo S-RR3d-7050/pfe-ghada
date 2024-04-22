@@ -84,7 +84,7 @@ public class UserService : IUserService
         var role = model.Role;
         
         // default isActive to false if role != "Admin"
-        if (role.ToLower() != "admin")
+        if (role != UserRole.Admin)
             user.IsActive = false;
         else
 			user.IsActive = true;

@@ -1,4 +1,5 @@
 namespace WebApi.Models.Users;
+using WebApi.Entities;
 
 public class AuthenticateResponse
 {
@@ -7,7 +8,7 @@ public class AuthenticateResponse
     public string LastName { get; set; }
     public string Username { get; set; }
     public string Email { get; set; }
-    public string Role { get; set; }
+    public UserRole Role { get; set; }
     public string CIN { get; set; }
     public string Token { get; set; }
 }

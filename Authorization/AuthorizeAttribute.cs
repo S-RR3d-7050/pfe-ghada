@@ -19,7 +19,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
         if (user == null)
             context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
         // We can also check the user's role here ( user.Role == "Admin" )
-        else if (user.Role != "admin")
+        else if (user.Role != UserRole.Admin)
 			context.Result = new JsonResult(new { message = "Forbidden" }) { StatusCode = StatusCodes.Status403Forbidden };
 
     }
