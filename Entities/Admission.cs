@@ -1,4 +1,8 @@
+
+namespace WebApi.Entities;
+
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using WebApi.Entities;
 
 public class Admission
@@ -19,8 +23,12 @@ public class Admission
     public string Matricule { get; set; }
     public DateTime DatePEC { get; set; }
     public int NumPEC { get; set; }
+
+    [ForeignKey("MédecinTraitantId")]
     public User MédecinTraitant { get; set; }
     public int MédecinTraitantId { get; set; }
+
+    [ForeignKey("MédecinCorrespondantId")]
     public User MédecinCorrespondant { get; set; }
     public int MédecinCorrespondantId { get; set; }
     public string Code { get; set; }

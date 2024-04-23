@@ -1,11 +1,17 @@
+namespace WebApi.Entities;
+
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using WebApi.Entities;
 
 public class EmploiDuTemps
 {
     public int Id { get; set; }
+
+    [ForeignKey("KinéId")]
     public User Kiné { get; set; }
     public int KinéId { get; set; }
+
     public DateTime DateEmploi { get; set; }
     public TimeSpan HDébutMatinée { get; set; }
     public TimeSpan HFinMatinée { get; set; }

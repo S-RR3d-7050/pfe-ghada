@@ -1,3 +1,5 @@
+namespace WebApi.Entities;
+
 using System;
 using WebApi.Entities;
 

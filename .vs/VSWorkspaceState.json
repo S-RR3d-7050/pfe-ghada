@@ -1,11 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Migrations\\SqliteMigrations",
+    "\\Authorization",
+    "\\Controllers",
+    "\\Entities",
+    "\\Helpers",
+    "\\Migrations",
     "\\Migrations\\SqlServerMigrations",
     "\\Models",
+    "\\Properties",
     "\\Services"
   ],
-  "SelectedNode": "\\appsettings.json",
+  "SelectedNode": "\\Entities\\UserRole.cs",
   "PreviewInSolutionExplorer": false
 }
