@@ -34,6 +34,10 @@ var builder = WebApplication.CreateBuilder(args);
     // configure DI for application services
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IAdmissionService, AdmissionService>();
+    services.AddScoped<IDossierPatientService, DossierPatientService>();
+    services.AddScoped<IEmploiDuTempsService, EmploiDuTempsService>();
+    services.AddScoped<IRendezVousService, RendezVousService>();
 }
 
 var app = builder.Build();
