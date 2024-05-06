@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Helpers;
 
@@ -11,9 +12,10 @@ using WebApi.Helpers;
 namespace WebApi.Migrations.SqlServerMigrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240425093413_Release02")]
+    partial class Release02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,9 +53,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                     b.Property<int>("MédecinCorrespondantId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MédecinPrescripteurId")
-                        .HasColumnType("int");
-
                     b.Property<int>("MédecinTraitantId")
                         .HasColumnType("int");
 
@@ -78,8 +77,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                     b.HasKey("Id");
 
                     b.HasIndex("MédecinCorrespondantId");
-
-                    b.HasIndex("MédecinPrescripteurId");
 
                     b.HasIndex("MédecinTraitantId");
 
@@ -300,12 +297,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WebApi.Entities.User", "MédecinPrescripteur")
-                        .WithMany()
-                        .HasForeignKey("MédecinPrescripteurId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("WebApi.Entities.User", "MédecinTraitant")
                         .WithMany()
                         .HasForeignKey("MédecinTraitantId")
@@ -319,8 +310,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                         .IsRequired();
 
                     b.Navigation("MédecinCorrespondant");
-
-                    b.Navigation("MédecinPrescripteur");
 
                     b.Navigation("MédecinTraitant");
 

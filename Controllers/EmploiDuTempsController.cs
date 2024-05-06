@@ -5,9 +5,12 @@ using WebApi.Entities;
 using WebApi.Services;
 using System;
 using System.Collections.Generic;
+using WebApi.Authorization;
 
 
-    [ApiController]
+
+[AuthorizeMed]
+[ApiController]
     [Route("[controller]")]
     public class EmploiDuTempsController : ControllerBase
     {

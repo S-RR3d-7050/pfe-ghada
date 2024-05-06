@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Helpers;
 
@@ -11,9 +12,10 @@ using WebApi.Helpers;
 namespace WebApi.Migrations.SqlServerMigrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240424195916_FinalMigration")]
+    partial class FinalMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,17 +32,26 @@ namespace WebApi.Migrations.SqlServerMigrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Adresse")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Chambre")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateNaissance")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("DatePEC")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Désignation")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Identifiant")
+                        .HasColumnType("int");
 
                     b.Property<string>("Jour")
                         .HasColumnType("nvarchar(max)");
@@ -51,14 +62,23 @@ namespace WebApi.Migrations.SqlServerMigrations
                     b.Property<int>("MédecinCorrespondantId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MédecinPrescripteurId")
+                    b.Property<int>("MédecinTraitantId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MédecinTraitantId")
+                    b.Property<string>("Nationnalité")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumCIN")
                         .HasColumnType("int");
 
                     b.Property<int>("NumPEC")
                         .HasColumnType("int");
+
+                    b.Property<string>("Prenom")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Période")
                         .HasColumnType("nvarchar(max)");
@@ -67,6 +87,9 @@ namespace WebApi.Migrations.SqlServerMigrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Société")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telephone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
@@ -78,8 +101,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                     b.HasKey("Id");
 
                     b.HasIndex("MédecinCorrespondantId");
-
-                    b.HasIndex("MédecinPrescripteurId");
 
                     b.HasIndex("MédecinTraitantId");
 
@@ -123,9 +144,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                     b.Property<string>("Gouvernorat")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Lieu")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Matricule")
                         .HasColumnType("nvarchar(max)");
 
@@ -166,9 +184,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Traite")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypPCE")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -300,12 +315,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WebApi.Entities.User", "MédecinPrescripteur")
-                        .WithMany()
-                        .HasForeignKey("MédecinPrescripteurId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("WebApi.Entities.User", "MédecinTraitant")
                         .WithMany()
                         .HasForeignKey("MédecinTraitantId")
@@ -319,8 +328,6 @@ namespace WebApi.Migrations.SqlServerMigrations
                         .IsRequired();
 
                     b.Navigation("MédecinCorrespondant");
-
-                    b.Navigation("MédecinPrescripteur");
 
                     b.Navigation("MédecinTraitant");
 

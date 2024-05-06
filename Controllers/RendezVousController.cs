@@ -1,30 +1,40 @@
 namespace WebApi.Controllers;
 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Entities;
 using WebApi.Services;
 using System;
 using System.Collections.Generic;
+using WebApi.Authorization;
+using WebApi.Models.RDV;
 
+[AuthorizeRecep]
 [ApiController]
 [Route("[controller]")]
     public class RendezVousController : ControllerBase
 {
         private readonly IRendezVousService _rendezVousService;
+	    private IMapper _mapper;
 
-        public RendezVousController(IRendezVousService rendezVousService)
+
+	public RendezVousController(IRendezVousService rendezVousService, IMapper mapper
+)
     {
             _rendezVousService = rendezVousService;
-        }
+		    _mapper = mapper;
 
-    // GET: RendezVous
-    [HttpGet]
+	}
+
+	// GET: RendezVous
+	[HttpGet]
         public ActionResult<List<RendezVous>> GetAllRendezVous()
     {
             return Ok(_rendezVousService.GetAll());
         }
 
     // GET: RendezVous/{id}
+    [AuthorizeMR]
     [HttpGet("{id}")]
         public ActionResult<RendezVous> GetRendezVousById(int id)
     {
@@ -54,23 +64,20 @@ using System.Collections.Generic;
 
     // PUT: RendezVous/{id}
     [HttpPut("{id}")]
-        public IActionResult UpdateRendezVous(int id, [FromBody] RendezVous rendezVous)
-    {
-            if (id != rendezVous.Id)
+        public IActionResult UpdateRendezVous([FromBody] RendezVous rendezVous)
         {
-                return BadRequest();
-            }
-
-            try
+        
+        try
         {
-                _rendezVousService.Update(rendezVous);
-                return NoContent();
-            }
-            catch (Exception ex)
+				_rendezVousService.Update(rendezVous);
+				return Ok(new { message = "Rdv updated !!", rendezVous = rendezVous });
+		}
+			catch (Exception ex)
         {
-                // Implement proper error handling, this is just a placeholder.
-                return BadRequest(ex.Message);
-            }
+				// Implement proper error handling, this is just a placeholder.
+				return BadRequest(ex.Message);
+			}
+           
         }
 
     // DELETE: RendezVous/{id}
@@ -80,4 +87,13 @@ using System.Collections.Generic;
             _rendezVousService.Delete(id);
             return NoContent();
         }
+
+    // GET: RendezVous/medecinTraitant/{medecinTraitantId}
+    [AuthorizeMed]
+    [HttpGet("medecinTraitant/{medecinTraitantId}")]
+		public ActionResult<List<RendezVous>> GetRendezVousByMedecinTraitant(int medecinTraitantId)
+        {
+			return Ok(_rendezVousService.GetRendezVousByMedecinTraitant(medecinTraitantId));
+		}
     }
+

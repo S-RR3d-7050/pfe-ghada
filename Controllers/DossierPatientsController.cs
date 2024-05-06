@@ -5,7 +5,10 @@ using WebApi.Entities;
 using WebApi.Services;
 using System;
 using System.Collections.Generic;
+using WebApi.Authorization;
 
+
+[AuthorizeRecep]
 [ApiController]
     [Route("[controller]")]
     public class DossierPatientsController : ControllerBase
@@ -17,14 +20,16 @@ using System.Collections.Generic;
             _dossierPatientService = dossierPatientService;
         }
 
-        // GET: DossierPatients
+	// GET: DossierPatients
+	    [AuthorizeMR]
         [HttpGet]
         public ActionResult<List<DossierPatient>> GetAllDossierPatients()
         {
             return Ok(_dossierPatientService.GetAll());
         }
 
-        // GET: DossierPatients/{id}
+	// GET: DossierPatients/{id}
+	    [AuthorizeMR]
         [HttpGet("{id}")]
         public ActionResult<DossierPatient> GetDossierPatientById(int id)
         {
@@ -52,8 +57,8 @@ using System.Collections.Generic;
             }
         }
 
-        // PUT: DossierPatients/{id}
-        [HttpPut("{id}")]
+	    // PUT: DossierPatients/{id}
+	    [HttpPut("{id}")]
         public IActionResult UpdateDossierPatient(int id, [FromBody] DossierPatient dossierPatient)
         {
             if (id != dossierPatient.Id)
@@ -73,8 +78,8 @@ using System.Collections.Generic;
             }
         }
 
-        // DELETE: DossierPatients/{id}
-        [HttpDelete("{id}")]
+	    // DELETE: DossierPatients/{id}
+	    [HttpDelete("{id}")]
         public IActionResult DeleteDossierPatient(int id)
         {
             try

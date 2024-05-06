@@ -30,5 +30,6 @@ public class DossierPatient
     public string Délégation { get; set; }
     public string Matricule { get; set; }
     public string PatientPEC { get; set; }
-
+    public string TypPCE { get; set; }
+    public string Lieu { get; set; }
 }

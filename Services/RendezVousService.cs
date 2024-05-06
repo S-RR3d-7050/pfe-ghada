@@ -1,11 +1,13 @@
 namespace WebApi.Services;
 
+using AutoMapper;
 using WebApi.Entities;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Helpers;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using WebApi.Models.RDV;
 
 public interface IRendezVousService
 {
@@ -14,18 +16,24 @@ public interface IRendezVousService
     void Create(RendezVous rendezVous);
     void Update(RendezVous rendezVous);
     void Delete(int id);
+    IEnumerable<RendezVous> GetRendezVousByMedecinTraitant(int medecinTraitantId);
 }
 
 public class RendezVousService : IRendezVousService
 {
-    private DataContext _context;
 
-    public RendezVousService(DataContext context)
+	private readonly IMapper _mapper;
+	private DataContext _context;
+
+    public RendezVousService(DataContext context, IMapper mapper)
     {
         _context = context;
-    }
+		_mapper = mapper;
 
-    public IEnumerable<RendezVous> GetAll()
+
+	}
+
+	public IEnumerable<RendezVous> GetAll()
     {
         return _context.RendezVous
             .Include(r => r.dossierPatient)
@@ -52,11 +60,15 @@ public class RendezVousService : IRendezVousService
 
     public void Update(RendezVous rendezVous)
     {
-        if (rendezVous == null)
-            throw new ArgumentNullException(nameof(rendezVous));
+   
 
-        _context.RendezVous.Update(rendezVous);
-        _context.SaveChanges();
+        if (rendezVous == null)
+			throw new ArgumentNullException(nameof(rendezVous));
+
+		_context.RendezVous.Update(rendezVous);
+		_context.SaveChanges();
+
+
     }
 
     public void Delete(int id)
@@ -68,4 +80,13 @@ public class RendezVousService : IRendezVousService
         _context.RendezVous.Remove(rendezVous);
         _context.SaveChanges();
     }
+
+    // get all rendez-vous for a specific MédecinTraitant
+    public IEnumerable<RendezVous> GetRendezVousByMedecinTraitant(int medecinTraitantId)
+    {
+		return _context.RendezVous
+			.Include(r => r.dossierPatient)
+			.Where(r => r.MédecinTraitantId == medecinTraitantId)
+			.ToList();
+	}
 }

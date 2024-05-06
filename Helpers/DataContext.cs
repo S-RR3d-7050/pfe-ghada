@@ -40,6 +40,12 @@ public class DataContext : DbContext
             .HasForeignKey(a => a.MédecinCorrespondantId)
             .OnDelete(DeleteBehavior.Restrict); // Adjust the DeleteBehavior as required
 
+        modelBuilder.Entity<Admission>()
+            .HasOne(a => a.MédecinPrescripteur)
+			.WithMany() // Replace with .WithMany(u => u.Admissions) if User has a collection of Admissions
+			.HasForeignKey(a => a.MédecinPrescripteurId)
+			.OnDelete(DeleteBehavior.Restrict); // Adjust the DeleteBehavior as required
+
         modelBuilder.Entity<EmploiDuTemps>()
         .HasOne(et => et.Kiné)
         .WithMany() // Replace with .WithMany(u => u.EmploiDuTemps) if User has a collection of EmploiDuTemps

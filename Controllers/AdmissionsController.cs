@@ -5,9 +5,11 @@ using WebApi.Entities;
 using WebApi.Services;
 using System;
 using System.Collections.Generic;
+using WebApi.Authorization;
 
 
-    [ApiController]
+[AuthorizeRecep]
+[ApiController]
     [Route("[controller]")]
     public class AdmissionsController : ControllerBase
     {
