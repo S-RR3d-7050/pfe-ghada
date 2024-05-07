@@ -17,6 +17,7 @@ public interface IRendezVousService
     void Update(RendezVous rendezVous);
     void Delete(int id);
     IEnumerable<RendezVous> GetRendezVousByMedecinTraitant(int medecinTraitantId);
+    IEnumerable<RendezVous> GetRendezVousByMedecinCorrespondant(int medecinCorrespondantId);
 }
 
 public class RendezVousService : IRendezVousService
@@ -37,6 +38,8 @@ public class RendezVousService : IRendezVousService
     {
         return _context.RendezVous
             .Include(r => r.dossierPatient)
+            .Include(r => r.MédecinTraitant)
+            .Include(r => r.MédecinCorrespondant)
             // You might also need to include MédecinTraitant and MédecinCorrespondant
             .ToList();
     }
@@ -89,4 +92,12 @@ public class RendezVousService : IRendezVousService
 			.Where(r => r.MédecinTraitantId == medecinTraitantId)
 			.ToList();
 	}
+
+    public IEnumerable<RendezVous> GetRendezVousByMedecinCorrespondant(int medecinCorrespondantId)
+    {
+        return _context.RendezVous
+            .Include(r => r.dossierPatient)
+            .Where(r => r.MédecinCorrespondantId == medecinCorrespondantId)
+            .ToList();
+    }
 }

@@ -4,7 +4,7 @@
 
 namespace WebApi.Migrations.SqlServerMigrations
 {
-    public partial class FinalMigration : Migration
+    public partial class UpdateDatabaseMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -95,5 +95,13 @@ using WebApi.Models.RDV;
         {
 			return Ok(_rendezVousService.GetRendezVousByMedecinTraitant(medecinTraitantId));
 		}
+
+    [AuthorizeMed]
+    [HttpGet("medecinCorrespondant/{medecinCorrespondantId}")]
+        public ActionResult<List<RendezVous>> GetRendezVousByMedecinCorrespondant(int medecinCorrespondantId)
+    {
+            return Ok(_rendezVousService.GetRendezVousByMedecinCorrespondant(medecinCorrespondantId));
     }
+
+}
 

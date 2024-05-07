@@ -6,6 +6,7 @@ using WebApi.Services;
 using System;
 using System.Collections.Generic;
 using WebApi.Authorization;
+using WebApi.Models.DossiersPatients;
 
 
 [AuthorizeRecep]
@@ -57,29 +58,38 @@ using WebApi.Authorization;
             }
         }
 
-	    // PUT: DossierPatients/{id}
-	    [HttpPut("{id}")]
-        public IActionResult UpdateDossierPatient(int id, [FromBody] DossierPatient dossierPatient)
-        {
-            if (id != dossierPatient.Id)
-            {
-                return BadRequest();
-            }
+    // PUT: DossierPatients/{id}
+    //[HttpPut("{id}")]
+    //   public IActionResult UpdateDossierPatient(int id, [FromBody] DossierPatient dossierPatient)
+    //   {
+    //       //if (id != dossierPatient.Id)
+    //       //{
+    //       //    return BadRequest();
+    //       //}
 
-            try
-            {
-                _dossierPatientService.Update(dossierPatient);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Implement proper error handling, this is just a placeholder.
-                return NotFound(ex.Message);
-            }
-        }
+    //       try
+    //       {
+    //           //_dossierPatientService.Update(dossierPatient);
+    //           _dossierPatientService.UpdateWithId(id, dossierPatient);
+    //           return NoContent();
+    //       }
+    //       catch (Exception ex)
+    //       {
+    //           // Implement proper error handling, this is just a placeholder.
+    //           return NotFound(ex.Message);
+    //       }
+    //   }
 
-	    // DELETE: DossierPatients/{id}
-	    [HttpDelete("{id}")]
+    [HttpPut("{id}")]
+    public IActionResult UpdateDossierPatient(int id, [FromBody] DPUpdate updateModel)
+    {
+        _dossierPatientService.UpdateWithId(id, updateModel);
+        var dossierPatientToReturn = _dossierPatientService.GetById(id);
+        return Ok(dossierPatientToReturn);
+    }
+
+    // DELETE: DossierPatients/{id}
+    [HttpDelete("{id}")]
         public IActionResult DeleteDossierPatient(int id)
         {
             try
