@@ -92,5 +92,17 @@ using WebApi.Authorization;
                 return NotFound(ex.Message);
             }
         }
+
+    // GET: EmploiDuTemps/med/{kinéId}
+    [HttpGet("med/{kinéId}")]
+    public ActionResult<EmploiDuTemps> GetEmploiDuTempsByKinéId(int kinéId)
+    {
+        var emploiDuTemps = _emploiDuTempsService.GetByKinéId(kinéId);
+        if (emploiDuTemps == null)
+        {
+            return NotFound();
+        }
+        return Ok(emploiDuTemps);
     }
+}
 

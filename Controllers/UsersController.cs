@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Authorization;
+using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Models.Users;
 using WebApi.Services;
@@ -14,15 +15,18 @@ using WebApi.Services;
 public class UsersController : ControllerBase
 {
     private IUserService _userService;
+    private IEmploiDuTempsService _emploiDuTempsService;
     private IMapper _mapper;
     private readonly AppSettings _appSettings;
 
     public UsersController(
         IUserService userService,
+        IEmploiDuTempsService emploiDuTempsService,
         IMapper mapper,
         IOptions<AppSettings> appSettings)
     {
         _userService = userService;
+        _emploiDuTempsService = emploiDuTempsService;
         _mapper = mapper;
         _appSettings = appSettings.Value;
     }
@@ -47,6 +51,15 @@ public class UsersController : ControllerBase
 
 
         var user = _userService.GetByUsername(model.Username);
+
+        if (user.Role == Entities.UserRole.Médecin)
+        {
+            //create a new EmploiDuTemps for the new user
+            EmploiDuTemps emploiDuTemps = new EmploiDuTemps();
+            emploiDuTemps.KinéId = user.Id;
+            _emploiDuTempsService.Create(emploiDuTemps);
+
+        }
 
         // We return the created user and the success message
 
@@ -100,5 +113,14 @@ public class UsersController : ControllerBase
     {
         _userService.Delete(id);
         return Ok(new { message = "User deleted successfully" });
+    }
+
+
+    [AllowAnonymous]
+    [HttpGet("medecins")]
+    public IActionResult GetAllMédecins()
+    {
+        var users = _userService.GetAllMédecins();
+        return Ok(users);
     }
 }

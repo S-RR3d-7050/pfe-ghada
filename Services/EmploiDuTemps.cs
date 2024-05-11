@@ -15,6 +15,7 @@ public interface IEmploiDuTempsService
     void Create(EmploiDuTemps emploiDuTemps);
     void Update(EmploiDuTemps emploiDuTemps);
     void Delete(int id);
+    EmploiDuTemps GetByKinéId(int kinéId)
 }
 
 public class EmploiDuTempsService : IEmploiDuTempsService
@@ -65,4 +66,11 @@ public class EmploiDuTempsService : IEmploiDuTempsService
         _context.EmploiDuTemps.Remove(emploi);
         _context.SaveChanges();
     }
+
+    public EmploiDuTemps GetByKinéId(int kinéId)
+    {
+        return _context.EmploiDuTemps
+            .Include(e => e.Kiné)
+            .FirstOrDefault(e => e.KinéId == kinéId);
+    }   
 }

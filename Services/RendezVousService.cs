@@ -13,11 +13,12 @@ public interface IRendezVousService
 {
     IEnumerable<RendezVous> GetAll();
     RendezVous GetById(int id);
-    void Create(RendezVous rendezVous);
+    RendezVous Create(RendezVous rendezVous);
     void Update(RendezVous rendezVous);
     void Delete(int id);
     IEnumerable<RendezVous> GetRendezVousByMedecinTraitant(int medecinTraitantId);
     IEnumerable<RendezVous> GetRendezVousByMedecinCorrespondant(int medecinCorrespondantId);
+    void UpdateWithId(int id, RdvUpdate rdvUpdate);
 }
 
 public class RendezVousService : IRendezVousService
@@ -48,17 +49,34 @@ public class RendezVousService : IRendezVousService
     {
         return _context.RendezVous
             .Include(r => r.dossierPatient)
+            .Include(r => r.MédecinTraitant)
+            .Include(r => r.MédecinCorrespondant)
             // Include other related entities as needed
             .FirstOrDefault(r => r.Id == id);
     }
 
-    public void Create(RendezVous rendezVous)
+    public RendezVous Create(RendezVous rendezVous)
     {
         if (rendezVous == null)
             throw new ArgumentNullException(nameof(rendezVous));
 
+        //_context.RendezVous.Add(rendezVous);
+        //_context.SaveChanges();
+
+        //save the new rendez-vous and return it with the related entities
         _context.RendezVous.Add(rendezVous);
         _context.SaveChanges();
+
+        int id = rendezVous.Id;
+
+        var rendezVousAdded = _context.RendezVous
+            .Include(r => r.dossierPatient)
+            .Include(r => r.MédecinTraitant)
+            .Include(r => r.MédecinCorrespondant)
+            .FirstOrDefault(r => r.Id == id);
+
+
+        return rendezVousAdded;
     }
 
     public void Update(RendezVous rendezVous)
@@ -72,6 +90,30 @@ public class RendezVousService : IRendezVousService
 		_context.SaveChanges();
 
 
+    }
+
+    public void UpdateWithId(int id, RdvUpdate rdvUpdate)
+    {
+        var rendezVous = _context.RendezVous.Find(id);
+        if (rendezVous == null)
+            throw new InvalidOperationException("RendezVous not found");
+
+        var properties = typeof(RdvUpdate).GetProperties();
+        foreach (var property in properties)
+        {
+            var newValue = property.GetValue(rdvUpdate, null);
+            if (newValue != null) // Ensures we only update properties that have been set in the DTO
+            {
+                var entityProperty = _context.Entry(rendezVous).Property(property.Name);
+                if (entityProperty != null && entityProperty.Metadata.Name != "Id") // Ensure we do not try to update the ID
+                {
+                    entityProperty.CurrentValue = newValue;
+                    entityProperty.IsModified = true;
+                }
+            }
+        }   
+
+        _context.SaveChanges();
     }
 
     public void Delete(int id)

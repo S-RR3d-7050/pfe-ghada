@@ -18,6 +18,7 @@ public interface IUserService
     void activate(int id);
     void deactivate(int id);
     User GetByUsername(string username);
+    IEnumerable<User> GetAllMédecins();
 }
 
 public class UserService : IUserService
@@ -142,5 +143,10 @@ public class UserService : IUserService
         var user = _context.Users.Find(id);
         if (user == null) throw new KeyNotFoundException("User not found");
         return user;
+    }
+
+    public IEnumerable<User> GetAllMédecins()
+    {
+        return _context.Users.Where(x => x.Role == UserRole.Médecin);
     }
 }

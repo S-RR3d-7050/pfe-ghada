@@ -52,8 +52,8 @@ using WebApi.Models.RDV;
     {
             try
         {
-                _rendezVousService.Create(rendezVous);
-                return CreatedAtAction(nameof(GetRendezVousById), new { id = rendezVous.Id }, rendezVous);
+                return _rendezVousService.Create(rendezVous);
+                //return CreatedAtAction(nameof(GetRendezVousById), new { id = rendezVous.Id }, rendezVous);
             }
             catch (Exception ex)
         {
@@ -63,22 +63,30 @@ using WebApi.Models.RDV;
         }
 
     // PUT: RendezVous/{id}
+    //  [HttpPut("{id}")]
+    //      public IActionResult UpdateRendezVous([FromBody] RendezVous rendezVous)
+    //      {
+
+    //      try
+    //      {
+    //		_rendezVousService.Update(rendezVous);
+    //		return Ok(new { message = "Rdv updated !!", rendezVous = rendezVous });
+    //}
+    //	catch (Exception ex)
+    //      {
+    //		// Implement proper error handling, this is just a placeholder.
+    //		return BadRequest(ex.Message);
+    //	}
+
+    //      }
+
     [HttpPut("{id}")]
-        public IActionResult UpdateRendezVous([FromBody] RendezVous rendezVous)
-        {
-        
-        try
-        {
-				_rendezVousService.Update(rendezVous);
-				return Ok(new { message = "Rdv updated !!", rendezVous = rendezVous });
-		}
-			catch (Exception ex)
-        {
-				// Implement proper error handling, this is just a placeholder.
-				return BadRequest(ex.Message);
-			}
-           
-        }
+    public IActionResult UpdateDossierPatient(int id, [FromBody] RdvUpdate updateModel)
+    {
+        _rendezVousService.UpdateWithId(id, updateModel);
+        var rendezVousToReturn = _rendezVousService.GetById(id);
+        return Ok(rendezVousToReturn);
+    }
 
     // DELETE: RendezVous/{id}
     [HttpDelete("{id}")]
