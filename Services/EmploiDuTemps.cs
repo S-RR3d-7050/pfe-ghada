@@ -15,7 +15,7 @@ public interface IEmploiDuTempsService
     void Create(EmploiDuTemps emploiDuTemps);
     void Update(EmploiDuTemps emploiDuTemps);
     void Delete(int id);
-    EmploiDuTemps GetByKinéId(int kinéId)
+    EmploiDuTemps GetByKinéId(int kinéId);
 }
 
 public class EmploiDuTempsService : IEmploiDuTempsService
