@@ -56,29 +56,37 @@ using WebApi.Authorization;
             }
         }
 
-        // PUT: EmploiDuTemps/{id}
-        [HttpPut("{id}")]
-        public IActionResult UpdateEmploiDuTemps(int id, [FromBody] EmploiDuTemps emploiDuTemps)
-        {
-            if (id != emploiDuTemps.Id)
-            {
-                return BadRequest();
-            }
+    //// PUT: EmploiDuTemps/{id}
+    //[HttpPut("{id}")]
+    //public IActionResult UpdateEmploiDuTemps(int id, [FromBody] EmploiDuTemps emploiDuTemps)
+    //{
+    //    if (id != emploiDuTemps.Id)
+    //    {
+    //        return BadRequest();
+    //    }
 
-            try
-            {
-                _emploiDuTempsService.Update(emploiDuTemps);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Implement proper error handling, this is just a placeholder.
-                return NotFound(ex.Message);
-            }
+    //    try
+    //    {
+    //        _emploiDuTempsService.Update(emploiDuTemps);
+    //        return NoContent();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // Implement proper error handling, this is just a placeholder.
+    //        return NotFound(ex.Message);
+    //    }
+    //}
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateEmlpoiDuTemps(int id, [FromBody] EmploiDuTemps updateModel)
+        {
+            _emploiDuTempsService.UpdateWithId(id, updateModel);
+            var admissionToReturn = _emploiDuTempsService.GetById(id);
+            return Ok(admissionToReturn);
         }
 
-        // DELETE: EmploiDuTemps/{id}
-        [HttpDelete("{id}")]
+    // DELETE: EmploiDuTemps/{id}
+    [HttpDelete("{id}")]
         public IActionResult DeleteEmploiDuTemps(int id)
         {
             try

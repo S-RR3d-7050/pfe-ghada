@@ -16,6 +16,7 @@ public interface IEmploiDuTempsService
     void Update(EmploiDuTemps emploiDuTemps);
     void Delete(int id);
     EmploiDuTemps GetByKinéId(int kinéId);
+    void UpdateWithId(int id, EmploiDuTemps emploiDuTempsUpdate);
 }
 
 public class EmploiDuTempsService : IEmploiDuTempsService
@@ -55,6 +56,36 @@ public class EmploiDuTempsService : IEmploiDuTempsService
 
         _context.EmploiDuTemps.Update(emploiDuTemps);
         _context.SaveChanges();
+    }
+
+    public void UpdateWithId(int id, EmploiDuTemps emploiDuTempsUpdate)
+    {
+       try
+        {
+            var emploiDuTemps = _context.EmploiDuTemps.Find(id);
+            if (emploiDuTemps == null)
+                throw new InvalidOperationException("Emlpoi du temps not found");
+
+            var properties = typeof(EmploiDuTemps).GetProperties();
+            foreach (var property in properties)
+            {
+                var newValue = property.GetValue(emploiDuTempsUpdate, null);
+                if (newValue != null) // Ensures we only update properties that have been set in the DTO
+                {
+                    var entityProperty = _context.Entry(emploiDuTemps).Property(property.Name);
+                    if (entityProperty != null && entityProperty.Metadata.Name != "Id") // Ensure we do not try to update the ID
+                    {
+                        entityProperty.CurrentValue = newValue;
+                        entityProperty.IsModified = true;
+                    }
+                }
+            }
+
+            _context.SaveChanges();
+        } catch (Exception ex)
+        {
+            throw new InvalidOperationException(ex.Message);
+        }
     }
 
     public void Delete(int id)

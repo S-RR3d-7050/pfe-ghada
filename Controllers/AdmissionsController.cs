@@ -46,7 +46,9 @@ using WebApi.Authorization;
             try
             {
                 _admissionService.Create(admission);
-                return CreatedAtAction(nameof(GetAdmissionById), new { id = admission.Id }, admission);
+                //CreatedAtAction(nameof(GetAdmissionById), new { id = admission.Id }, admission);
+                var admissionCreated = _admissionService.GetById(admission.Id);
+                return Ok(admissionCreated);
             }
             catch (Exception ex)
             {
@@ -55,29 +57,37 @@ using WebApi.Authorization;
             }
         }
 
-        // PUT: Admission/{id}
-        [HttpPut("{id}")]
-        public IActionResult UpdateAdmission(int id, [FromBody] Admission admission)
-        {
-            if (id != admission.Id)
-            {
-                return BadRequest();
-            }
+    // PUT: Admission/{id}
+    //[HttpPut("{id}")]
+    //public IActionResult UpdateAdmission(int id, [FromBody] Admission admission)
+    //{
+    //    if (id != admission.Id)
+    //    {
+    //        return BadRequest();
+    //    }
 
-            try
-            {
-                _admissionService.Update(admission);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Implement proper error handling, this is just a placeholder.
-                return NotFound(ex.Message);
-            }
-        }
+    //    try
+    //    {
+    //        _admissionService.Update(admission);
+    //        return NoContent();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // Implement proper error handling, this is just a placeholder.
+    //        return NotFound(ex.Message);
+    //    }
+    //}
 
-        // DELETE: Admission/{id}
-        [HttpDelete("{id}")]
+    [HttpPut("{id}")]
+    public IActionResult UpdateAdmission(int id, [FromBody] Admission updateModel)
+    {
+        _admissionService.UpdateWithId(id, updateModel);
+        var admissionToReturn = _admissionService.GetById(id);
+        return Ok(admissionToReturn);
+    }
+
+    // DELETE: Admission/{id}
+    [HttpDelete("{id}")]
         public IActionResult DeleteAdmission(int id)
         {
             try

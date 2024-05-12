@@ -142,4 +142,5 @@ public class RendezVousService : IRendezVousService
             .Where(r => r.MédecinCorrespondantId == medecinCorrespondantId)
             .ToList();
     }
+
 }
