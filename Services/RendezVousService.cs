@@ -19,6 +19,7 @@ public interface IRendezVousService
     IEnumerable<RendezVous> GetRendezVousByMedecinTraitant(int medecinTraitantId);
     IEnumerable<RendezVous> GetRendezVousByMedecinCorrespondant(int medecinCorrespondantId);
     void UpdateWithId(int id, RdvUpdate rdvUpdate);
+    IEnumerable<RendezVous> GetRendezVousByMedecinTraitantAndCorrespondant(int medecinId);
 }
 
 public class RendezVousService : IRendezVousService
@@ -142,5 +143,16 @@ public class RendezVousService : IRendezVousService
             .Where(r => r.MédecinCorrespondantId == medecinCorrespondantId)
             .ToList();
     }
+
+    public IEnumerable<RendezVous> GetRendezVousByMedecinTraitantAndCorrespondant(int medecinId)
+    {
+        return _context.RendezVous
+            .Include(r => r.dossierPatient)
+            .Include(r => r.MédecinTraitant)
+            .Include(r => r.MédecinCorrespondant)
+            .Where(r => r.MédecinTraitantId == medecinId || r.MédecinCorrespondantId == medecinId)
+            .ToList();
+    }
+
 
 }
